@@ -291,16 +291,36 @@
               matchesChildCount: 0,
             },
           };
-          if (root._id === '659dd6c91f28d76ec3cc9d3d') {
+          if (processorType === 'gsl-single') {
             if (stage.bracket.style === 'double') {
               newStage.ends_in_qual = true;
+              if (match.roundNumber > 2) {
+                return;
+              }
             }
           }
-          if (root._id === '65bac6adbb579346b1d3147b') {
-            if (stage.bracket.style === 'double') {
-              newStage.ends_in_qual = true;
+          if (processorType === 'challengers1') {
+            newStage.ends_in_qual = true;
+            if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
+              return;
             }
           }
+          if (processorType === 'challengers1') {
+            newStage.ends_in_qual = true;
+            if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8)) {
+              return;
+            }
+          }
+          // if (root._id === '659dd6c91f28d76ec3cc9d3d') {
+          //   if (stage.bracket.style === 'double') {
+          //     newStage.ends_in_qual = true;
+          //   }
+          // }
+          // if (root._id === '65bac6adbb579346b1d3147b') {
+          //   if (stage.bracket.style === 'double') {
+          //     newStage.ends_in_qual = true;
+          //   }
+          // }
           if (root._id === '65b3f92d8e1b4c130d0e7307') {
             newStage.ends_in_qual = true;
           }
@@ -314,33 +334,33 @@
             // if (!match.top.team && !match.bottom.team) {
             // return;
             // }
-            if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'single' && match.roundNumber > 3) {
-              return;
-            }
-            if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) {
-              return;
-            }
-            if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6) {
-              return;
-            }
-            if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'single' && match.roundNumber > 3) {
-              return;
-            }
-            if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) {
-              return;
-            }
-            if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8) {
-              return;
-            }
-            if (root._id === '659dd6c91f28d76ec3cc9d3d' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-              return;
-            }
-            if (root._id === '65bac6adbb579346b1d3147b' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-              return;
-            }
-            if (root._id === '65f91291f9fbe42090326fa5' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-              return;
-            }
+            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'single' && match.roundNumber > 3) {
+            //   return;
+            // }
+            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) {
+            //   return;
+            // }
+            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6) {
+            //   return;
+            // }
+            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'single' && match.roundNumber > 3) {
+            //   return;
+            // }
+            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) {
+            //   return;
+            // }
+            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8) {
+            //   return;
+            // }
+            // if (root._id === '659dd6c91f28d76ec3cc9d3d' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+            //   return;
+            // }
+            // if (root._id === '65bac6adbb579346b1d3147b' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+            //   return;
+            // }
+            // if (root._id === '65f91291f9fbe42090326fa5' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+            //   return;
+            // }
             // console.log({
             //   id: match._id,
             //   stage: stage._id === '65b3f93d8c9f89131f26c78f' ? 'single' : 'double',
@@ -1104,6 +1124,7 @@
 
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '65c8dd5a98c0e16f5b8e45d8';
+      const processorType = params.get('processor') || 'gsl-single';
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
       const teamsUrl = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}/teams?page=1&limit=256`;
