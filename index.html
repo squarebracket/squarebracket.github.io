@@ -1114,7 +1114,7 @@
             origin: window.location.origin,
           }
         }
-        fetch('https://d28z8dqcsddp56.cloudfront.net/version.json', options).then(res => res.json()).then((obj) => {
+        fetch('https://squarebracket.github.io/version.json', options).then(res => res.json()).then((obj) => {
           console.log(version, obj.version);
           if (version < obj.version) {
             document.querySelector('#updater').classList.remove('hidden');
