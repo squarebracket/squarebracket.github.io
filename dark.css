@@ -29,6 +29,10 @@ body {
   text-align: center;
   padding: 10px;
 }
+#name {
+  text-align: center;
+  color: #d9d9d9;
+}
 #stretch {
   flex: 1;
 }

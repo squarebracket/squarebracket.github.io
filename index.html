@@ -152,6 +152,8 @@
     </div>
   </div>
 
+  <h1 id="name"></h1>
+
   <div id="live-matches">
     <h1>Currently Live Streams</h1>
     <div id="live-main"></div>
@@ -504,6 +506,8 @@
             maxPlayers = Math.max(maxPlayers, team.players.length);
           });
           fetch(URL).then((res) => res.json()).then(data => {
+            tourneyName = data[0].name;
+            document.querySelector('#name').innerHTML = tourneyName;
             // console.log(data);
             data = processor(data, teams);
             // console.log(data);
