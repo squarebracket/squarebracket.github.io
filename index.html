@@ -294,22 +294,15 @@
           if (processorType === 'gsl-single') {
             if (stage.bracket.style === 'double') {
               newStage.ends_in_qual = true;
-              if (match.roundNumber > 2) {
-                return;
-              }
             }
           }
           if (processorType === 'challengers1') {
             newStage.ends_in_qual = true;
-            if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
-              return;
-            }
+
           }
           if (processorType === 'challengers1') {
             newStage.ends_in_qual = true;
-            if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8)) {
-              return;
-            }
+
           }
           // if (root._id === '659dd6c91f28d76ec3cc9d3d') {
           //   if (stage.bracket.style === 'double') {
@@ -321,16 +314,31 @@
           //     newStage.ends_in_qual = true;
           //   }
           // }
-          if (root._id === '65b3f92d8e1b4c130d0e7307') {
-            newStage.ends_in_qual = true;
-          }
-          if (root._id === '65c8dd5a98c0e16f5b8e45d8') {
-            newStage.ends_in_qual = true;
-          }
+          // if (root._id === '65b3f92d8e1b4c130d0e7307') {
+          //   newStage.ends_in_qual = true;
+          // }
+          // if (root._id === '65c8dd5a98c0e16f5b8e45d8') {
+          //   newStage.ends_in_qual = true;
+          // }
           // console.log(newStage);
           stages.push(newStage);
 
           stage.matches.forEach((match) => {
+            if (processorType === 'challengers1') {
+              if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
+                return;
+              }
+            }
+            if (processorType === 'challengers2') {
+              if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8)) {
+                return;
+              }
+            }
+            if (processorType === 'gsl-single') {
+              if (match.roundNumber > 2) {
+                return;
+              }
+            }
             // if (!match.top.team && !match.bottom.team) {
             // return;
             // }
