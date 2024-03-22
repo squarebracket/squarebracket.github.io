@@ -323,6 +323,8 @@
           // console.log(newStage);
           stages.push(newStage);
 
+          const bestOf = stage.bracket.series.map(s => s.numGames).reduce((acc, cur) => acc === cur ? acc : null);
+
           stage.matches.forEach((match) => {
             if (processorType === 'challengers1') {
               if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
@@ -397,6 +399,8 @@
               };
             }
 
+            
+
             const newMatch = {
               id: match._id,
               stage_id: stage._id,
@@ -404,7 +408,7 @@
               round_id: match.roundNumber,
               number: match.matchNumber,
               status: match.isComplete ? 4 : 2,
-              child_count: 3,
+              child_count: bestOf ?? 3,
               opponent1: team1,
               opponent2: team2,
               // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
