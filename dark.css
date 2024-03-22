@@ -1,0 +1,222 @@
+html {
+  background-color: #40474f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.invis {
+  visibility: hidden;
+}
+
+.stages {
+  padding: 2px 1em;
+  text-wrap: nowrap;
+}
+
+.qualified {
+  margin-bottom: 4px;
+}
+.main-feed {
+  background-color: #b6b5b5;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+#stretch {
+  flex: 1;
+}
+.team {
+  /* font-weight: bold; */
+}
+.hint {
+  font-size: 12px;
+  color: #d9d9d9;
+  padding: 10px 50px;
+}
+#live-matches {
+  /* position: fixed; */
+  /* right: 50px; */
+  /* display: flex; */
+  font-size: 12px;
+  color: #d9d9d9;
+  padding: 10px 50px;
+  /* width: 50%; */
+  /* text-align: right; */
+}
+#live-matches:not(:has(#live-main:not(:empty), #live-pov:not(:empty), #live-community:not(:empty))) h1 {
+  display: none;
+}
+#live-matches:has(#live-main:not(:empty), #live-pov:not(:empty), #live-community:not(:empty)) h1 {
+  display: block;
+}
+#live-main:not(:empty) {
+  margin-top: 6px;
+}
+#live-main:not(:empty)::before {
+  content: "Main feeds";
+  font-size: 14px;
+  font-weight: bold;
+}
+#live-pov:not(:empty) {
+  margin-top: 6px;
+}
+#live-pov:not(:empty)::before {
+  content: "Player POVs";
+  font-size: 14px;
+  font-weight: bold;
+}
+#live-community:not(:empty) {
+  margin-top: 6px;
+}
+#live-community:not(:empty)::before {
+  content: "Community watch parties";
+  font-size: 14px;
+  font-weight: bold;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.search input {
+  border: 2px black;
+  border-style: groove;
+  border-radius: 10px;
+  height: 30px;
+  width: 300px;
+  flex-grow: 1;
+}
+#live-matches>div>div {
+  margin-left: 15px;
+  /* display: flex; */
+}
+#live-main {
+  /* display: flex; */
+}
+#live-community {
+  /* display: flex; */
+}
+
+.live-match {
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  gap: 5px;
+}
+
+.live-match.twitch-img {
+  margin-left: 50px;
+  padding-left: 50px;
+  margin: 0px 5px;
+  /* border: 1px solid green; */
+}
+
+a {
+  color: rgb(248 113 113);
+}
+a:hover {
+  color: rgb(220 38 38);
+}
+
+.player:not(.twitch) {
+  margin-left: 17px;
+}
+
+.streams {
+  display: flex;
+}
+
+.block {
+  display: block;
+}
+
+.time {
+  padding-top: 2px;
+  margin-left: 4px;
+  /* display: none; */
+}
+
+#updater {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color: wheat;
+  color: black;
+  font-size: 2em;
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+#footer {
+  min-height: 2rem;
+  width: 100%;
+  background-color: rgb(47, 51, 55);
+  text-align: center;
+  color: #d9d9d9;
+  display: flex;
+  vertical-align: middle;
+  /* position: absolute; */
+  display: grid;
+	align-items: center;
+}
+
+h1 {
+  margin-top: 15px !important;
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.brackets-viewer {
+  min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  /* Colors */
+  --primary-background: #40474f;
+  --secondary-background: #303030;
+  --match-background: var(--primary-background);
+  --font-color: #d9d9d9;
+  --win-color: #50b649;
+  --loss-color: #e61a1a;
+  --label-color: grey;
+  --hint-color: #a7a7a7;
+  --connector-color: #9e9e9e;
+  --border-color: #d9d9d9;
+  --border-hover-color: #b6b5b5;
+
+  /* Sizes */
+  --text-size: 12px;
+  --round-margin: 40px;
+  --match-width: 180px;
+  --match-horizontal-padding: 8px;
+  --match-vertical-padding: 6px;
+  --connector-border-width: 2px;
+  --match-border-width: 1px;
+  --match-border-radius: 0.3em;
+
+  h3 {
+    text-align: center;
+    background: none;
+    font-size: 1.0em;
+    padding: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: var(--match-width);
+    /* border: 2px solid red; */
+    margin-bottom: 2px;
+  }
+
+  [popover] {
+    background-color: #40474f;
+    color: var(--font-color)
+  }
+  
+}
