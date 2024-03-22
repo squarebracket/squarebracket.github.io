@@ -1027,12 +1027,13 @@
       const mainChannelMapper = {
         '65c8dd5a98c0e16f5b8e45d8': ['valorant_northamerica', 'knightsarena', 'knightsarena_a', 'knightsarena_b'],
         '659dd6c91f28d76ec3cc9d3d': ['raidiantgg', 'raidiant_beam',],
-        '65f91291f9fbe42090326fa5': ['mrfunhaver'],
+        '65f91291f9fbe42090326fa5': ['mrfunhaver', 'funhaverinvitational'],
       };
 
       const splitters = {
         '65c8dd5a98c0e16f5b8e45d8': '-',
         '659dd6c91f28d76ec3cc9d3d': '|',
+        '65f91291f9fbe42090326fa5': '|',
       }
 
       function getCurrentlyLiveMatches() {
@@ -1068,9 +1069,16 @@
             liveMains.innerHTML = '';
             const splitter = splitters[tournament];
             obj.data.forEach((twitchInfo) => {
-              [team1, team2] = twitchInfo.title.slice(twitchInfo.title.lastIndexOf(splitter) + 1).split(/ vs /i);
+              splits = twitchInfo.title.split(splitter);
+              let team1;
+              let team2;
+              splits.forEach((chunk => {
+                if (/ vs /i.test(chunk)) {
+                  [team1, team2] = chunk.split(/ vs /i);
+                }
+              }));
               if (!team1 || !team2) {
-                team1 = twitchInfo.title.slice(twitchInfo.title.lastIndexOf(splitter) + 1).trim();
+                team1 = twitchInfo.title.trim();
               }
               const entry = createLiveEntry(team1, team2 && team2.trim(), twitchInfo.user_login);
               liveMains.append(entry);
