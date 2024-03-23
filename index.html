@@ -549,6 +549,10 @@
               addPlayers();
               getCurrentlyLiveMatches();
               createLinks();
+              if (anchor) {
+                console.log(`trying to scroll to ${anchor}`)
+                document.querySelector(anchor).scrollIntoView();
+              }
             });
             // window.bracketsViewer.render({ stages: data.stage, matches: data.match, matchGames: data.match_game, participants: data.participant, });
           });
@@ -1150,6 +1154,7 @@
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '65c8dd5a98c0e16f5b8e45d8';
       const processorType = params.get('processor') || 'gsl-single';
+      const anchor = window.location.hash;
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
       const teamsUrl = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}/teams?page=1&limit=256`;
