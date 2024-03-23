@@ -338,7 +338,7 @@
                 return;
               }
             }
-            if (processorType === 'gsl-single') {
+            if (processorType === 'gsl-single' && stage.bracket.style === 'double') {
               if (match.roundNumber > 2) {
                 return;
               }
@@ -515,13 +515,13 @@
               clear: true,
               separatedChildCountLabel: true,
               customRoundName: (info, t) => {
-                if (info.groupType === "single-bracket" && info.roundNumber === 1) {
-                  return 'RO256';
-                } else if (info.groupType === "single-bracket" && info.roundNumber === 2) {
-                  return 'RO128';
-                } else if (info.groupType === "single-bracket" && info.roundNumber === 3) {
-                  return 'RO64';
-                }
+                // if (info.groupType === "single-bracket" && info.roundNumber === 1) {
+                //   return 'RO256';
+                // } else if (info.groupType === "single-bracket" && info.roundNumber === 2) {
+                //   return 'RO128';
+                // } else if (info.groupType === "single-bracket" && info.roundNumber === 3) {
+                //   return 'RO64';
+                // }
                 // if (info.groupType === 'loser-bracket' && info.roundNumber === 1) {
                 //   return 'Elimination';
                 // } else if (info.groupType === 'loser-bracket' && info.roundNumber === 2) {
