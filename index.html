@@ -7,7 +7,7 @@
   <script type="text/javascript" src="brackets-viewer.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/public-google-sheets-parser?v=20230209"></script>
-  <title>VALORANT Challengers North America Open Qualifier 2</title>
+  <title>Verizon VCT Game Changers Series 2 Open Qualifier #1</title>
   <link rel="stylesheet" href="dark.css" />
 
   <style type="text/css">
@@ -1260,9 +1260,9 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '65c8dd5a98c0e16f5b8e45d8';
-      const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper')];
+      const tournament = params.get('tournament') || '6609a38e86dc730b9efd91d7';
+      const processorType = params.get('processor') || 'rr-single';
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
       const anchor = window.location.hash;
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
