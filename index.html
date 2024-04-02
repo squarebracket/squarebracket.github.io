@@ -269,18 +269,27 @@
         const rounds = [];
         const matchGames = [];
         const root = obj[0];
-        root.stages.forEach((stage) => {
+        root.stages.forEach((stage, index) => {
           // console.log(stage.name, stage._id);
           stage.bracket.series.forEach((round) => {
             rounds.push({
               stage_id: stage._id,
             })
           })
+          let stageType;
+          if (stage.bracket.type === 'elimination') {
+            stageType = `${stage.bracket.style}_elimination`;
+          } else if (stage.bracket.type === 'roundrobin') {
+            stageType = 'round_robin';
+          } else {
+            console.error(`well i dunno wtf to do`);
+          }
           const newStage = {
             id: stage._id,
             name: stage.name.replace(' - GSL', ''),
-            type: `${stage.bracket.style}_elimination`,
-            number: 1,
+            type: stageType,
+            groupCount: stage.bracket.groupsCount,
+            number: index,
             settings: {
               size: stage.teamIDs.length,
               seedOrdering: [
@@ -327,144 +336,231 @@
 
           const bestOf = stage.bracket.series.map(s => s.numGames).reduce((acc, cur) => acc === cur ? acc : null);
 
-          stage.matches.forEach((match) => {
-            if (processorType === 'challengers1') {
-              if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
-                return;
-              }
-            }
-            if (processorType === 'challengers2') {
-              if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8)) {
-                return;
-              }
-            }
-            if (processorType === 'gsl-single' && stage.bracket.style === 'double') {
-              if (match.roundNumber > 2) {
-                return;
-              }
-            }
-            // if (!match.top.team && !match.bottom.team) {
-            // return;
-            // }
-            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'single' && match.roundNumber > 3) {
-            //   return;
-            // }
-            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) {
-            //   return;
-            // }
-            // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6) {
-            //   return;
-            // }
-            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'single' && match.roundNumber > 3) {
-            //   return;
-            // }
-            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) {
-            //   return;
-            // }
-            // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8) {
-            //   return;
-            // }
-            // if (root._id === '659dd6c91f28d76ec3cc9d3d' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-            //   return;
-            // }
-            // if (root._id === '65bac6adbb579346b1d3147b' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-            //   return;
-            // }
-            // if (root._id === '65f91291f9fbe42090326fa5' && stage.bracket.style === 'double' && match.roundNumber > 2) {
-            //   return;
-            // }
-            // console.log({
-            //   id: match._id,
-            //   stage: stage._id === '65b3f93d8c9f89131f26c78f' ? 'single' : 'double',
-            //   group_id: match.matchType,
-            //   round_id: match.roundNumber,
-            //   teamA: match.top.team && match.top.team.name,
-            //   teamB: match.bottom.team && match.bottom.team.name,
-            // });
-            let team1 = { id: null };
-            if (match.top.team) {
-              team1 = {
-                id: match.top.team._id,
-                score: match.top.score,
-                result: match.isComplete ? (match.top.winner ? 'win' : 'loss') : undefined,
-                // position: match.top.seedNumber,
-              };
-            }
-            // console.log(match);
-            let team2 = match.isBye ? null : { id: null };
-            if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
-              team2 = {
-                id: match.bottom.team._id,
-                score: match.bottom.score,
-                result: match.isComplete ? (match.bottom.winner ? 'win' : 'loss') : undefined,
-                // position: match.bottom.seedNumber,
-              };
-            }
+          if (stageType === 'round_robin') {
+            stage.groups.forEach((group) => {
+              group.matches.forEach((match) => {
+                let team1 = { id: null };
+                if (match.top.team) {
+                  team1 = {
+                    id: match.top.team._id,
+                    score: match.top.score,
+                    result: match.isComplete ? (match.top.winner ? 'win' : 'loss') : undefined,
+                    // position: match.top.seedNumber,
+                  };
+                }
+                // console.log(match);
+                let team2 = match.isBye ? null : { id: null };
+                if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
+                  team2 = {
+                    id: match.bottom.team._id,
+                    score: match.bottom.score,
+                    result: match.isComplete ? (match.bottom.winner ? 'win' : 'loss') : undefined,
+                    // position: match.bottom.seedNumber,
+                  };
+                }
 
-            
-
-            const newMatch = {
-              id: match._id,
-              stage_id: stage._id,
-              group_id: match.matchType,
-              round_id: match.roundNumber,
-              number: match.matchNumber,
-              status: match.isComplete ? 4 : 2,
-              child_count: bestOf ?? 3,
-              opponent1: team1,
-              opponent2: team2,
-              // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
-            };
-            if (specificMatchStartTimeMapper[match._id]) {
-              newMatch.time = new Date(specificMatchStartTimeMapper[match._id]).valueOf();
-            } else if (stage.bracket.style === 'double') {
-              let roundNum = match.roundNumber;
-              if (match.matchType === 'loser') {
-                roundNum++;
-              }
-              newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][roundNum - 1]).valueOf()) : stage.startTime;
-            } else {
-              newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime;
-            }
-            // console.log(newMatch);
-            // TODO: remove
-            // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
-            // newMatch.status = 2;
-            // if (match._id === '65aef3864ee3d66f2a7ec066') {
-            // newMatch.opponent2 = {id: null}
-            // }
-            // }
-
-            if (mainStreams[match._id]) {
-              newMatch.stream = mainStreams[match._id];
-              console.log('found main stream game');
-            }
-
-            if (match.stats) {
-              match.stats.map((game) => {
-                return {
-                  id: game._id,
+                const newMatch = {
+                  id: match._id,
                   stage_id: stage._id,
-                  parent_id: match._id,
-                  number: game.gameNumber,
-                  status: game.stats.isComplete ? 4 : 0,
-                  opponent1: {
-                    id: team1.id,
-                    score: game.stats.top.score,
-                    result: game.stats.top.winner ? 'win' : 'loss',
-                  },
-                  opponent2: {
-                    id: team2.id,
-                    score: game.stats.bottom.score,
-                    result: game.stats.bottom.winner ? 'win' : 'loss',
-                  },
+                  group_id: group.name,
+                  round_id: match.roundNumber,
+                  number: match.matchNumber,
+                  status: match.isComplete ? 4 : 2,
+                  child_count: bestOf ?? 3,
+                  opponent1: team1,
+                  opponent2: team2,
+                  // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
                 };
-              }).forEach((game) => matchGames.push(game));
-            }
+                if (specificMatchStartTimeMapper[match._id]) {
+                  newMatch.time = new Date(specificMatchStartTimeMapper[match._id]).valueOf();
+                } else if (stage.bracket.style === 'double') {
+                  let roundNum = match.roundNumber;
+                  if (match.matchType === 'loser') {
+                    roundNum++;
+                  }
+                  newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][roundNum - 1]).valueOf()) : stage.startTime;
+                } else {
+                  newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime;
+                }
+                // console.log(newMatch);
+                // TODO: remove
+                // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
+                // newMatch.status = 2;
+                // if (match._id === '65aef3864ee3d66f2a7ec066') {
+                // newMatch.opponent2 = {id: null}
+                // }
+                // }
 
-            matches.push(newMatch);
+                if (mainStreams[match._id]) {
+                  newMatch.stream = mainStreams[match._id];
+                  console.log('found main stream game');
+                }
 
-          })
+                if (match.stats) {
+                  match.stats.map((game) => {
+                    return {
+                      id: game._id,
+                      stage_id: stage._id,
+                      parent_id: match._id,
+                      number: game.gameNumber,
+                      status: game.stats.isComplete ? 4 : 0,
+                      opponent1: {
+                        id: team1.id,
+                        score: game.stats.top.score,
+                        result: game.stats.top.winner ? 'win' : 'loss',
+                      },
+                      opponent2: {
+                        id: team2.id,
+                        score: game.stats.bottom.score,
+                        result: game.stats.bottom.winner ? 'win' : 'loss',
+                      },
+                    };
+                  }).forEach((game) => matchGames.push(game));
+                }
+
+                matches.push(newMatch);
+              })
+            })
+          } else {
+            stage.matches.forEach((match) => {
+              if (processorType === 'challengers1') {
+                if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
+                  return;
+                }
+              }
+              if (processorType === 'challengers2') {
+                if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8)) {
+                  return;
+                }
+              }
+              if (processorType === 'gsl-single' && stage.bracket.style === 'double') {
+                if (match.roundNumber > 2) {
+                  return;
+                }
+              }
+              // if (!match.top.team && !match.bottom.team) {
+              // return;
+              // }
+              // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'single' && match.roundNumber > 3) {
+              //   return;
+              // }
+              // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) {
+              //   return;
+              // }
+              // if (root._id === '65b3f92d8e1b4c130d0e7307' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6) {
+              //   return;
+              // }
+              // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'single' && match.roundNumber > 3) {
+              //   return;
+              // }
+              // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 5) {
+              //   return;
+              // }
+              // if (root._id === '65c8dd5a98c0e16f5b8e45d8' && stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 8) {
+              //   return;
+              // }
+              // if (root._id === '659dd6c91f28d76ec3cc9d3d' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+              //   return;
+              // }
+              // if (root._id === '65bac6adbb579346b1d3147b' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+              //   return;
+              // }
+              // if (root._id === '65f91291f9fbe42090326fa5' && stage.bracket.style === 'double' && match.roundNumber > 2) {
+              //   return;
+              // }
+              // console.log({
+              //   id: match._id,
+              //   stage: stage._id === '65b3f93d8c9f89131f26c78f' ? 'single' : 'double',
+              //   group_id: match.matchType,
+              //   round_id: match.roundNumber,
+              //   teamA: match.top.team && match.top.team.name,
+              //   teamB: match.bottom.team && match.bottom.team.name,
+              // });
+              let team1 = { id: null };
+              if (match.top.team) {
+                team1 = {
+                  id: match.top.team._id,
+                  score: match.top.score,
+                  result: match.isComplete ? (match.top.winner ? 'win' : 'loss') : undefined,
+                  // position: match.top.seedNumber,
+                };
+              }
+              // console.log(match);
+              let team2 = match.isBye ? null : { id: null };
+              if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
+                team2 = {
+                  id: match.bottom.team._id,
+                  score: match.bottom.score,
+                  result: match.isComplete ? (match.bottom.winner ? 'win' : 'loss') : undefined,
+                  // position: match.bottom.seedNumber,
+                };
+              }
+
+
+
+              const newMatch = {
+                id: match._id,
+                stage_id: stage._id,
+                group_id: match.matchType,
+                round_id: match.roundNumber,
+                number: match.matchNumber,
+                status: match.isComplete ? 4 : 2,
+                child_count: bestOf ?? 3,
+                opponent1: team1,
+                opponent2: team2,
+                // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
+              };
+              if (specificMatchStartTimeMapper[match._id]) {
+                newMatch.time = new Date(specificMatchStartTimeMapper[match._id]).valueOf();
+              } else if (stage.bracket.style === 'double') {
+                let roundNum = match.roundNumber;
+                if (match.matchType === 'loser') {
+                  roundNum++;
+                }
+                newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][roundNum - 1]).valueOf()) : stage.startTime;
+              } else {
+                newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime;
+              }
+              // console.log(newMatch);
+              // TODO: remove
+              // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
+              // newMatch.status = 2;
+              // if (match._id === '65aef3864ee3d66f2a7ec066') {
+              // newMatch.opponent2 = {id: null}
+              // }
+              // }
+
+              if (mainStreams[match._id]) {
+                newMatch.stream = mainStreams[match._id];
+                console.log('found main stream game');
+              }
+
+              if (match.stats) {
+                match.stats.map((game) => {
+                  return {
+                    id: game._id,
+                    stage_id: stage._id,
+                    parent_id: match._id,
+                    number: game.gameNumber,
+                    status: game.stats.isComplete ? 4 : 0,
+                    opponent1: {
+                      id: team1.id,
+                      score: game.stats.top.score,
+                      result: game.stats.top.winner ? 'win' : 'loss',
+                    },
+                    opponent2: {
+                      id: team2.id,
+                      score: game.stats.bottom.score,
+                      result: game.stats.bottom.winner ? 'win' : 'loss',
+                    },
+                  };
+                }).forEach((game) => matchGames.push(game));
+              }
+
+              matches.push(newMatch);
+
+            })
+          }
         });
         return {
           stages,
