@@ -1059,7 +1059,7 @@
                 if (twitchInfo.game_name !== 'VALORANT') {
                   return;
                 }
-                if (/VCL/i.test(twitchInfo.title) || /challengers/i.test(twitchInfo.title)) {
+                if (/GameChangers/i.test(twitchInfo.title) || /game changers/i.test(twitchInfo.title)) {
                   commStreams[twitchInfo.user_login] = twitchInfo.title;
                 }
               });
