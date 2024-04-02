@@ -357,6 +357,9 @@
           if (stageType === 'round_robin') {
             stage.groups.forEach((group) => {
               group.matches.forEach((match) => {
+                if (match.isBye) {
+                  return;
+                }
                 let team1 = { id: null };
                 if (match.top.team) {
                   team1 = {
