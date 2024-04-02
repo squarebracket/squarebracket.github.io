@@ -260,6 +260,24 @@
       // const URL = 'https://dtmwra1jsgyb0.cloudfront.net/tournaments/65bac6adbb579346b1d3147b?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true';
       // const teamsUrl = 'https://dtmwra1jsgyb0.cloudfront.net/tournaments/65bac6adbb579346b1d3147b/teams?page=1&limit=256';
 
+      const startTimeMapper = (stage, match, startTimeMapper) => {
+        if (specificMatchStartTimeMapper[match._id]) {
+          return new Date(specificMatchStartTimeMapper[match._id]).valueOf();
+        }
+        if (!startTimeMapper) {
+          return new Date(stage.startTime);
+        }
+        const startDate = new Date(stage.startTime);
+        const a = new Date(startTimeMapper[0]);
+        const diff = startDate - a;
+        let roundNum = match.roundNumber;
+        if (stage.bracket.style === 'double' && match.matchType === 'loser') {
+          roundNum++;
+        }
+        const b = new Date(startTimeMapper[roundNum - 1]);
+        b.setMilliseconds(b.getMilliseconds() + diff);
+        return b;
+      }
 
       let matches = [];
 
@@ -371,17 +389,7 @@
                   opponent2: team2,
                   // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
                 };
-                if (specificMatchStartTimeMapper[match._id]) {
-                  newMatch.time = new Date(specificMatchStartTimeMapper[match._id]).valueOf();
-                } else if (stage.bracket.style === 'double') {
-                  let roundNum = match.roundNumber;
-                  if (match.matchType === 'loser') {
-                    roundNum++;
-                  }
-                  newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][roundNum - 1]).valueOf()) : stage.startTime;
-                } else {
-                  newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime;
-                }
+                newMatch.time = startTimeMapper(stage, match, startTimeMapperType);
                 // console.log(newMatch);
                 // TODO: remove
                 // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
@@ -510,17 +518,7 @@
                 opponent2: team2,
                 // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
               };
-              if (specificMatchStartTimeMapper[match._id]) {
-                newMatch.time = new Date(specificMatchStartTimeMapper[match._id]).valueOf();
-              } else if (stage.bracket.style === 'double') {
-                let roundNum = match.roundNumber;
-                if (match.matchType === 'loser') {
-                  roundNum++;
-                }
-                newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][roundNum - 1]).valueOf()) : stage.startTime;
-              } else {
-                newMatch.time = battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime;
-              }
+              newMatch.time = startTimeMapper(stage, match, startTimeMapperType);
               // console.log(newMatch);
               // TODO: remove
               // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
@@ -971,6 +969,18 @@
         '65c8dd9665baba5fcd1166c6': '2024-02-15T00:00:00.000Z',
         '65c8dd9665baba5fcd1166c7': '2024-02-15T02:00:00.000Z',
       }
+      const timeMappers = {
+        'gc-quals': [
+          '2024-03-22T21:00:00.000Z',
+          '2024-03-23T00:00:00.000Z',
+          '2024-03-23T21:00:00.000Z',
+          '2024-03-24T00:00:00.000Z',
+          '2024-03-24T21:00:00.000Z',
+          '2024-03-25T00:00:00.000Z',
+          '2024-03-25T21:00:00.000Z',
+          '2024-03-26T00:00:00.000Z',
+        ]
+      }
 
       function getTwitchStatus() {
         console.log('getting twitch live status for pov streams');
@@ -1252,6 +1262,7 @@
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '65c8dd5a98c0e16f5b8e45d8';
       const processorType = params.get('processor') || 'gsl-single';
+      const startTimeMapperType = timeMappers[params.get('timeMapper')];
       const anchor = window.location.hash;
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
