@@ -1193,8 +1193,8 @@
               let team1;
               let team2;
               splits.forEach((chunk => {
-                if (/ vs /i.test(chunk)) {
-                  [team1, team2] = chunk.split(/ vs /i);
+                if (/ vs.? /i.test(chunk)) {
+                  [team1, team2] = chunk.split(/ vs.? /i);
                 }
               }));
               if (!team1 || !team2) {
