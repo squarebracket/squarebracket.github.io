@@ -379,6 +379,15 @@
                     // position: match.bottom.seedNumber,
                   };
                 }
+                let status = match.isComplete ? 4 : 2;
+                if (match.roundNumber > 1) {
+                  console.log('here');
+                  const lastMatch = matches.find(m => m.group_id === group.name && m.round_id === match.roundNumber - 1);
+                  console.log(lastMatch);
+                  if (lastMatch && lastMatch.status === 2) {
+                    status = 1;
+                  }
+                }
 
                 const newMatch = {
                   id: match._id,
@@ -386,7 +395,7 @@
                   group_id: group.name,
                   round_id: match.roundNumber,
                   number: match.matchNumber,
-                  status: match.isComplete ? 4 : 2,
+                  status: status,
                   child_count: bestOf ?? 3,
                   opponent1: team1,
                   opponent2: team2,
@@ -977,11 +986,11 @@
           '2024-03-22T21:00:00.000Z',
           '2024-03-22T22:30:00.000Z',
           '2024-03-23T21:00:00.000Z',
-          '2024-03-24T00:00:00.000Z',
+          '2024-03-23T23:00:00.000Z',
           '2024-03-24T21:00:00.000Z',
-          '2024-03-25T00:00:00.000Z',
+          '2024-03-24T23:00:00.000Z',
           '2024-03-25T21:00:00.000Z',
-          '2024-03-26T00:00:00.000Z',
+          '2024-03-25T23:30:00.000Z',
         ]
       }
 
@@ -1210,7 +1219,7 @@
 
         const livePOVs = [];
         matches.forEach((match) => {
-          if (Date.now() < match.time || match.status === 4 || match.opponent1.id === null || match.opponent2.id === null) {
+          if (Date.now() < match.time || match.status === 4 || match.opponent1.id === null || match.opponent2.id === null || match.status === 1) {
             return;
           }
           let povs = [];
