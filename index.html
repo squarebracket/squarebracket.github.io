@@ -1009,7 +1009,7 @@
         return new Promise((resolve, reject) => {
           fetch(`https://api.twitch.tv/helix/streams?${qs}&type=live&first=100`, {
             headers: {
-              Authorization: `Bearer gllwmi31dem3yzt4jun2ws2mmthe1k`,
+              Authorization: `Bearer 9gswp34p19x283ykgw05p9crawikt5`,
               'Client-Id': 'fvt86l1gr691ynogv3kz1gd2djv7qn',
             },
           })
@@ -1058,7 +1058,7 @@
         return new Promise((resolve, reject) => {
           return fetch(`https://api.twitch.tv/helix/streams?${qs}&type=live&first=100`, {
             headers: {
-              Authorization: `Bearer iq2qjkq5pxzahghlfrsjodsjahuq92`,
+              Authorization: `Bearer 9gswp34p19x283ykgw05p9crawikt5`,
               'Client-Id': 'fvt86l1gr691ynogv3kz1gd2djv7qn',
             },
           })
@@ -1175,7 +1175,7 @@
         const qs = mainChannels.map((stream) => `user_login=${stream}`).join('&');
         fetch(`https://api.twitch.tv/helix/streams?${qs}&type=all&first=100`, {
           headers: {
-            Authorization: `Bearer iq2qjkq5pxzahghlfrsjodsjahuq92`,
+            Authorization: `Bearer 9gswp34p19x283ykgw05p9crawikt5`,
             'Client-Id': 'fvt86l1gr691ynogv3kz1gd2djv7qn',
           },
         })
