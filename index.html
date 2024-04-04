@@ -260,7 +260,7 @@
       // const URL = 'https://dtmwra1jsgyb0.cloudfront.net/tournaments/65bac6adbb579346b1d3147b?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true';
       // const teamsUrl = 'https://dtmwra1jsgyb0.cloudfront.net/tournaments/65bac6adbb579346b1d3147b/teams?page=1&limit=256';
 
-      const startTimeMapper = (stage, match, startTimeMapper) => {
+      const startTimeMapper = (stage, match, startTimeMapper, roundOffset) => {
         if (specificMatchStartTimeMapper[match._id]) {
           return new Date(specificMatchStartTimeMapper[match._id]).valueOf();
         }
@@ -270,7 +270,7 @@
         const startDate = new Date(stage.startTime);
         const a = new Date(startTimeMapper[0]);
         const diff = startDate - a;
-        let roundNum = match.roundNumber;
+        let roundNum = match.roundNumber + roundOffset;
         if (stage.bracket.style === 'double' && match.matchType === 'loser') {
           roundNum++;
         }
@@ -287,6 +287,8 @@
         const rounds = [];
         const matchGames = [];
         const root = obj[0];
+        let maxRoundNumThisStage = 0;
+        let roundOffset = 0;
         root.stages.forEach((stage, index) => {
           // console.log(stage.name, stage._id);
           stage.bracket.series.forEach((round) => {
@@ -353,10 +355,12 @@
           stages.push(newStage);
 
           const bestOf = stage.bracket.series.map(s => s.numGames).reduce((acc, cur) => acc === cur ? acc : null);
+          roundOffset = roundOffset + maxRoundNumThisStage;
 
           if (stageType === 'round_robin') {
             stage.groups.forEach((group) => {
               group.matches.forEach((match) => {
+                maxRoundNumThisStage = Math.max(maxRoundNumThisStage, match.roundNumber);
                 if (match.isBye) {
                   return;
                 }
@@ -401,7 +405,7 @@
                   opponent2: team2,
                   // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
                 };
-                newMatch.time = startTimeMapper(stage, match, startTimeMapperType);
+                newMatch.time = startTimeMapper(stage, match, startTimeMapperType, roundOffset);
                 // console.log(newMatch);
                 // TODO: remove
                 // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
@@ -443,6 +447,7 @@
             })
           } else {
             stage.matches.forEach((match) => {
+              maxRoundNumThisStage = Math.max(maxRoundNumThisStage, match.roundNumber);
               if (processorType === 'challengers1') {
                 if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
                   return;
@@ -530,7 +535,7 @@
                 opponent2: team2,
                 // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
               };
-              newMatch.time = startTimeMapper(stage, match, startTimeMapperType);
+              newMatch.time = startTimeMapper(stage, match, startTimeMapperType, roundOffset);
               // console.log(newMatch);
               // TODO: remove
               // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
