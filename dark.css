@@ -60,6 +60,12 @@ body {
 #live-matches:has(#live-main:not(:empty), #live-pov:not(:empty), #live-community:not(:empty)) h1 {
   display: block;
 }
+#live-matches:not(:has(#live-pov:not(:empty))) i {
+  display: none;
+}
+#live-matches:has(#live-pov:not(:empty)) i {
+  display: block;
+}
 #live-main:not(:empty) {
   margin-top: 6px;
 }
