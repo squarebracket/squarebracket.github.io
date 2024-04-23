@@ -356,7 +356,6 @@
           stages.push(newStage);
 
           const bestOf = stage.bracket.series.map(s => s.numGames).reduce((acc, cur) => acc === cur ? acc : null);
-          roundOffset = roundOffset + maxRoundNumThisStage;
 
           if (stageType === 'round_robin') {
             stage.groups.forEach((group) => {
@@ -446,6 +445,7 @@
                 matches.push(newMatch);
               })
             })
+          roundOffset = roundOffset + maxRoundNumThisStage;
           } else {
             stage.matches.forEach((match) => {
               maxRoundNumThisStage = Math.max(maxRoundNumThisStage, match.roundNumber);
@@ -463,6 +463,9 @@
                 if (match.roundNumber > 2) {
                   return;
                 }
+              }
+              if (processorType === 'gsl-single' && stage.bracket.style === 'single') {
+                roundOffset = 3;
               }
               // if (!match.top.team && !match.bottom.team) {
               // return;
