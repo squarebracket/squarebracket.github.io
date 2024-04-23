@@ -7,7 +7,7 @@
   <script type="text/javascript" src="brackets-viewer.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/public-google-sheets-parser?v=20230209"></script>
-  <title>Verizon VCT Game Changers Series 2 Open Qualifier #1</title>
+  <title>Better Battlefy</title>
   <link rel="stylesheet" href="dark.css" />
 
   <style type="text/css">
@@ -619,13 +619,15 @@
           fetch(URL).then((res) => res.json()).then(data => {
             tourneyName = data[0].name;
             document.querySelector('#name').innerHTML = tourneyName;
+            document.title = tourneyName;
             // console.log(data);
             data = processor(data, teams);
             // console.log(data);
             const config = {
               clear: true,
               separatedChildCountLabel: true,
-              customRoundName: (info, t) => {
+              // showRankingTable: false,
+              // customRoundName: (info, t) => {
                 // if (info.groupType === "single-bracket" && info.roundNumber === 1) {
                 //   return 'RO256';
                 // } else if (info.groupType === "single-bracket" && info.roundNumber === 2) {
@@ -642,7 +644,7 @@
                 // } else if (info.groupType === 'winner-bracket' && info.roundNumber === 2) {
                 //   return "Winner's";
                 // }
-              },
+              // },
               // showPopoverOnMatchLabelClick: true,
               // showSlotsOrigin: false,
               // participantOriginPlacement: 'before',
