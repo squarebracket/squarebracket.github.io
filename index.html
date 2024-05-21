@@ -1237,7 +1237,7 @@
 
         const livePOVs = [];
         matches.forEach((match) => {
-          if (Date.now() < match.time || match.status === 4 || match.opponent1.id === null || match.opponent2.id === null || match.status === 1) {
+          if (Date.now() < match.time || match.status === 4 || (match.opponent1 && match.opponent1.id === null) || (match.opponent2 && match.opponent2.id === null) || match.status === 1) {
             return;
           }
           let povs = [];
