@@ -364,8 +364,8 @@
                 if (match.isBye) {
                   return;
                 }
-                let team1 = { id: null };
-                if (match.top.team) {
+                let team1 = /BYE [A-Z]/.test(match.top.team.name) ? null : { id: null };
+                if (match.top.team && !/BYE [A-Z]/.test(match.top.team.name)) {
                   team1 = {
                     id: match.top.team._id,
                     score: match.top.score,
@@ -374,8 +374,8 @@
                   };
                 }
                 // console.log(match);
-                let team2 = match.isBye ? null : { id: null };
-                if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
+                let team2 = /BYE [A-Z]/.test(match.bottom.team.name) ? null : { id: null };
+                if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa' && !/BYE [A-Z]/.test(match.bottom.team.name)) {
                   team2 = {
                     id: match.bottom.team._id,
                     score: match.bottom.score,
@@ -515,8 +515,8 @@
                 };
               }
               // console.log(match);
-              let team2 = match.isBye ? null : { id: null };
-              if (match.bottom.team && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
+              let team2 = (match.isBye || (match.bottom.team && /BYE [A-Z]/.test(match.bottom.team.name))) ? null : { id: null };
+              if (match.bottom.team && !/BYE [A-Z]/.test(match.bottom.team.name) && match.bottom.team._id !== '65c28130c18d2b70ff587452' && match.bottom.team._id !== '65c2a2f00e8e805be622c0aa') {
                 team2 = {
                   id: match.bottom.team._id,
                   score: match.bottom.score,
@@ -596,7 +596,7 @@
         console.log('starting');
         fetch(teamsUrl).then((res) => res.json()).then(teams => {
           // teams = teams.filter(team => team.persistentTeam !== undefined).map(team => {
-          teams = teams.map(team => {
+          teams = teams.filter(team => !/BYE [A-Z]/.test(team.name)).map(team => {
             if (team.persistentTeam) {
               teamImages.push({
                 participantId: team._id,
