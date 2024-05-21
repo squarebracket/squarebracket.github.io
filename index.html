@@ -1264,8 +1264,12 @@
         const povsContainer = document.querySelector('#live-pov');
         povsContainer.innerHTML = '';
         livePOVs.forEach(match => {
-          const entry = createLiveEntry(teamsMap[match.opponent1.id].name, teamsMap[match.opponent2.id].name, match.povs);
-          povsContainer.append(entry);
+          try {
+            const entry = createLiveEntry(teamsMap[match.opponent1.id].name, teamsMap[match.opponent2.id].name, match.povs);
+            povsContainer.append(entry);
+          } catch {
+            console.log(match);
+          }
         });
         const commContainer = document.querySelector('#live-community');
         commContainer.innerHTML = '';
