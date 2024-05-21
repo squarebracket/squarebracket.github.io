@@ -385,7 +385,6 @@
                 }
                 let status = match.isComplete ? 4 : 2;
                 if (match.roundNumber > 1) {
-                  console.log('here');
                   const lastMatch = matches.find(m => m.group_id === group.name && m.round_id === match.roundNumber - 1);
                   console.log(lastMatch);
                   if (lastMatch && lastMatch.status === 2) {
