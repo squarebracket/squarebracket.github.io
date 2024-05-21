@@ -1166,6 +1166,9 @@
       }
 
       const mainChannelMapper = {
+        'nagc': ['raidiantgg', 'raidiant_beam',],
+        'knights': ['valorant_northamerica', 'knightsarena', 'knightsarena_a', 'knightsarena_b'],
+        'mrfh': ['mrfunhaver', 'funhaverinvitational'],
         '65c8dd5a98c0e16f5b8e45d8': ['valorant_northamerica', 'knightsarena', 'knightsarena_a', 'knightsarena_b'],
         '659dd6c91f28d76ec3cc9d3d': ['raidiantgg', 'raidiant_beam',],
         '6609a38e86dc730b9efd91d7': ['raidiantgg', 'raidiant_beam',],
@@ -1175,6 +1178,9 @@
       };
 
       const splitters = {
+        'nagc': '|',
+        'knights': '-',
+        'mrfh': '|',
         '65c8dd5a98c0e16f5b8e45d8': '-',
         '659dd6c91f28d76ec3cc9d3d': '|',
         '6609a38e86dc730b9efd91d7': '|',
@@ -1186,7 +1192,6 @@
       function getCurrentlyLiveMatches() {
         console.log('constructing currently live matches');
         const liveMains = document.querySelector('#live-main');
-        const mainChannels = mainChannelMapper[tournament];
         const qs = mainChannels.map((stream) => `user_login=${stream}`).join('&');
         fetch(`https://api.twitch.tv/helix/streams?${qs}&type=all&first=100`, {
           headers: {
@@ -1214,7 +1219,6 @@
             //     }];
             // }
             liveMains.innerHTML = '';
-            const splitter = splitters[tournament];
             obj.data.forEach((twitchInfo) => {
               splits = twitchInfo.title.split(splitter);
               let team1;
@@ -1290,6 +1294,8 @@
       const tournament = params.get('tournament') || '662436e173911d2090ddeac1';
       const processorType = params.get('processor') || 'gsl-single';
       const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
+      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
+      const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const anchor = window.location.hash;
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
