@@ -1174,6 +1174,7 @@
         '662436e173911d2090ddeac1': ['raidiantgg', 'raidiant_beam',],
         '65bac6adbb579346b1d3147b': ['raidiantgg', 'raidiant_beam',],
         '65f91291f9fbe42090326fa5': ['mrfunhaver', 'funhaverinvitational'],
+        'bell': ['bellcanada'],
       };
 
       const splitters = {
@@ -1294,10 +1295,10 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '6643cbe43c9bc0006759a630';
-      const processorType = params.get('processor') || 'rr-single';
+      const tournament = params.get('tournament') || '665895c6810370020c10f4b1';
+      const processorType = params.get('processor') || 'gsl-single';
       const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
-      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
+      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'bell'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const anchor = window.location.hash;
 
