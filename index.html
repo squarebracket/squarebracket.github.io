@@ -1295,10 +1295,10 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '665895c6810370020c10f4b1';
+      const tournament = params.get('tournament') || '66845827fd0a1a052acad57d';
       const processorType = params.get('processor') || 'gsl-single';
       const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
-      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'bell'];
+      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const anchor = window.location.hash;
 
