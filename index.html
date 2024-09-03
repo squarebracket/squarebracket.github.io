@@ -1082,12 +1082,13 @@
                 commStreams[user] = false;
               });
               obj.data.forEach(twitchInfo => {
+                console.log(twitchInfo);
                 if (twitchInfo.game_name !== 'VALORANT') {
                   return;
                 }
-                if (/GameChangers/i.test(twitchInfo.title) || /game changers/i.test(twitchInfo.title)) {
-                  commStreams[twitchInfo.user_login] = twitchInfo.title;
-                }
+                // if (/GameChangers/i.test(twitchInfo.title) || /game changers/i.test(twitchInfo.title) || /gc/i.test(twitchInfo.title)) {
+                commStreams[twitchInfo.user_login] = twitchInfo.title;
+                // }
               });
               // TODO: remove
               // if (tester) {
