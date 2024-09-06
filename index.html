@@ -1161,6 +1161,7 @@
           const link = document.createElement('a');
           link.href = `https://twitch.tv/${url}`;
           link.alt = `twitch stream for ${url}`;
+          link.target = '_blank';
           twitchDiv.classList.add('twitch-img');
           const img = document.createElement('img');
           img.src = 'TwitchGlitchPurple.png';
