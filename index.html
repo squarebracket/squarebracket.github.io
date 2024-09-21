@@ -409,6 +409,10 @@
                   // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
                 };
                 newMatch.time = startTimeMapper(root.startTime, stage, match, startTimeMapperType, roundOffset);
+                if (newMatch.time.toString() === 'Invalid Date') {
+                  console.log(newMatch);
+                  return;
+                }
                 // console.log(newMatch);
                 // TODO: remove
                 // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
@@ -543,6 +547,10 @@
                 // time: battlefyStartTimeMapper[stage._id] ? (new Date(battlefyStartTimeMapper[stage._id][match.roundNumber - 1]).valueOf()) : stage.startTime,
               };
               newMatch.time = startTimeMapper(root.startTime, stage, match, startTimeMapperType, roundOffset);
+              if (newMatch.time.toString() === 'Invalid Date') {
+                console.log(newMatch);
+                return;
+              }
               // console.log(newMatch);
               // TODO: remove
               // if (match._id === '65aef3864ee3d66f2a7ec064' || match._id === '65aef5198c3b6c12fcecfd47' || match._id === '65aef3864ee3d66f2a7ec066') {
