@@ -1322,9 +1322,9 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '66d25026ab07330021b152c0';
+      const tournament = params.get('tournament') || '66e75fdf122d3d002bb70b27';
       const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const anchor = window.location.hash;
