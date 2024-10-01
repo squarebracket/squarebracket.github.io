@@ -155,7 +155,7 @@
   <h1 id="name"></h1>
 
   <div id="event-specific" class="hint">
-      You can <a href="https://raidiant.link/GC3OQ2-Vetoes">click here</a> to see the map vetoes.
+      You can <a href="https://raidiant.link/GC3OQ3-Vetoes">click here</a> to see the map vetoes.
   </div>
 
   <div id="live-matches">
@@ -1322,9 +1322,9 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '66e75fdf122d3d002bb70b27';
+      const tournament = params.get('tournament') || '66f5d01a70020f0022f63314';
       const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const anchor = window.location.hash;
