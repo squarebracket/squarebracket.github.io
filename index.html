@@ -1247,6 +1247,9 @@
             // }
             liveMains.innerHTML = '';
             obj.data.forEach((twitchInfo) => {
+              if (twitchInfo.game_name !== 'VALORANT') {
+                return;
+              }
               splits = twitchInfo.title.split(splitter);
               let team1;
               let team2;
