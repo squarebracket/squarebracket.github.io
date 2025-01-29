@@ -1315,7 +1315,7 @@
         commContainer.innerHTML = '';
         const comms = Object.keys(commStreams);
         // do we have matches that are actually happening?
-        const filteredMatches = matches.filter(match => match.time < Date.now() && match.status < 4);
+        const filteredMatches = matches.filter(match => match.time - 3600000 < Date.now() && match.status < 4);
         if (filteredMatches.length > 0) {
           for (let i = 0; i < comms.length; i++) {
             let user = comms[i];
