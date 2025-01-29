@@ -273,6 +273,7 @@
           return new Date(stage.startTime);
         }
         const startDate = new Date(tourneyStart);
+        startDate.setHours(startDate.getHours() - 1);
         const a = new Date(startTimeMapper[0]);
         const diff = startDate - a;
         let roundNum = match.roundNumber + roundOffset;
@@ -1277,7 +1278,8 @@
 
         const livePOVs = [];
         matches.forEach((match) => {
-          if (Date.now() < match.time - 3600000 || match.status === 4 || (match.opponent1 && match.opponent1.id === null) || (match.opponent2 && match.opponent2.id === null) || match.status === 1) {
+          // console.log(Date.now() < match.time - 3600000, Date.now(), match.time.valueOf());
+          if (Date.now() < match.time || match.status === 4 || (match.opponent1 && match.opponent1.id === null) || (match.opponent2 && match.opponent2.id === null) || match.status === 1) {
             return;
           }
           let povs = [];
@@ -1315,7 +1317,7 @@
         commContainer.innerHTML = '';
         const comms = Object.keys(commStreams);
         // do we have matches that are actually happening?
-        const filteredMatches = matches.filter(match => match.time - 3600000 < Date.now() && match.status < 4);
+        const filteredMatches = matches.filter(match => match.time < Date.now() && match.status < 4);
         if (filteredMatches.length > 0) {
           for (let i = 0; i < comms.length; i++) {
             let user = comms[i];
