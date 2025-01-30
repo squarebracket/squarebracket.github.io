@@ -328,7 +328,7 @@
               matchesChildCount: 0,
             },
           };
-          if (processorType === 'gsl-single') {
+          if (processorType === 'gsl-single' || processorType === 'gsl-double') {
             if (stage.bracket.style === 'double') {
               newStage.ends_in_qual = true;
             }
@@ -467,12 +467,16 @@
                   return;
                 }
               }
-              if (processorType === 'gsl-single' && stage.bracket.style === 'double') {
+              if ((processorType === 'gsl-single' || processorType === 'gsl-double') && stage.bracket.style === 'double') {
+                // stop at top 2
                 if (match.roundNumber > 2) {
                   return;
                 }
               }
               if (processorType === 'gsl-single' && stage.bracket.style === 'single') {
+                roundOffset = 3;
+              }
+              if (processorType === 'gsl-double' && stage.bracket.style === 'double' && !/group/i.test(stage.name)) {
                 roundOffset = 3;
               }
               // if (!match.top.team && !match.bottom.team) {
@@ -1337,7 +1341,7 @@
 
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '67955537ddc8370228222708';
-      const processorType = params.get('processor') || 'gsl-single';
+      const processorType = params.get('processor') || 'gsl-double';
       const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
