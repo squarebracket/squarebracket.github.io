@@ -472,6 +472,9 @@
                 if (match.roundNumber > 2) {
                   return;
                 }
+                if (match.matchType === 'loser' && !/group/i.test(stage.name)) {
+                  match.roundNumber = match.roundNumber + 1;
+                }
               }
               if (processorType === 'gsl-single' && stage.bracket.style === 'single') {
                 roundOffset = 3;
