@@ -432,6 +432,9 @@
                   match.stats.map((game) => {
                     return {
                       id: game._id,
+                      metadata: {
+                        label: game.stats.mapName,
+                      },
                       stage_id: stage._id,
                       parent_id: match._id,
                       number: game.gameNumber,
@@ -577,6 +580,9 @@
                 match.stats.map((game) => {
                   return {
                     id: game._id,
+                    metadata: {
+                      label: game.stats.mapName,
+                    },
                     stage_id: stage._id,
                     parent_id: match._id,
                     number: game.gameNumber,
