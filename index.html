@@ -295,7 +295,13 @@
         const root = obj[0];
         let maxRoundNumThisStage = 0;
         let roundOffset = 0;
-        root.stages.forEach((stage, index) => {
+        root.stages.sort((stageA, stageB) => {
+          if (/.*playoffs.*/i.test(stageA.name)) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }).forEach((stage, index) => {
           // console.log(stage.name, stage._id);
           stage.bracket.series.forEach((round) => {
             rounds.push({
