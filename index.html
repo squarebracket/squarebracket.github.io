@@ -1359,12 +1359,12 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '67c1f4f5fdffd500362b0bf1';
-      const processorType = params.get('processor') || 'gsl-double';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
-      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
-      const splitter = splitters[params.get('mainStreams') || 'nagc'];
-      const eventSpecific = params.get('eventSpecific') || 'nagc';
+      const tournament = params.get('tournament') || '67ce3ae627724a003616e9f7';
+      const processorType = params.get('processor') || 'gsl-single';
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
+      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'mfh'];
+      const splitter = splitters[params.get('mainStreams') || 'mfh'];
+      const eventSpecific = params.get('eventSpecific') || 'mfh';
       const anchor = window.location.hash;
 
       addEventSpecific();
