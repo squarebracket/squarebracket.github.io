@@ -689,17 +689,21 @@
             //   })
             // }
             window.bracketsViewer.setParticipantImages(teamImages);
-            window.bracketsViewer.render({ participants: teams, ...data }, config).then(() => {
-              console.log('rendering finished');
-              addStreams();
-              addPlayers();
-              getCurrentlyLiveMatches();
-              createLinks();
-              if (anchor) {
-                console.log(`trying to scroll to ${anchor}`)
-                document.querySelector(anchor).scrollIntoView();
-              }
-            });
+            if (data.stages.length === 0) {
+              document.querySelector('.brackets-viewer').innerHTML = 'No brackets available yet.';
+            } else {
+              window.bracketsViewer.render({ participants: teams, ...data }, config).then(() => {
+                console.log('rendering finished');
+                addStreams();
+                addPlayers();
+                getCurrentlyLiveMatches();
+                createLinks();
+                if (anchor) {
+                  console.log(`trying to scroll to ${anchor}`)
+                  document.querySelector(anchor).scrollIntoView();
+                }
+              });
+            }
             // window.bracketsViewer.render({ stages: data.stage, matches: data.match, matchGames: data.match_game, participants: data.participant, });
           });
         });
