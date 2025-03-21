@@ -154,9 +154,7 @@
 
   <h1 id="name"></h1>
 
-  <div id="event-specific" class="hint">
-    You can <a href="https://raidiant.link/GCStage1OQ1-MapVetoes">click here</a> to see the map vetoes.
-  </div>
+  <div id="event-specific" class="hint"></div>
 
   <div id="live-matches">
     <h1>Currently Live Streams</h1>
@@ -1353,13 +1351,23 @@
         console.log('finished constructing currently live matches');
       }
 
+      function addEventSpecific() {
+        const container = document.querySelector('#event-specific');
+        if (eventSpecific === 'nagc') {
+          container.innerHTML = 'You can <a href="https://raidiant.link/GCStage1OQ2-MapVetoes">click here</a> to see the map vetoes.';
+        }
+      }
+
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '67c1f4f5fdffd500362b0bf1';
       const processorType = params.get('processor') || 'gsl-double';
       const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
+      const eventSpecific = params.get('eventSpecific') || 'nagc';
       const anchor = window.location.hash;
+
+      addEventSpecific();
 
       const URL = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}?extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Btop.team%5D=true&extend%5Bstages%5D%5Bmatches%5D%5Bbottom.team%5D=true&extend%5Bstages%5D%5Bgroups%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bstandings%5D%5Bteam%5D=true&extend%5Bstages%5D%5Bteams%5D=true`;
       const teamsUrl = `https://dtmwra1jsgyb0.cloudfront.net/tournaments/${tournament}/teams?page=1&limit=256`;
