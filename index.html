@@ -271,7 +271,6 @@
           return new Date(stage.startTime);
         }
         const startDate = new Date(tourneyStart);
-        startDate.setHours(startDate.getHours() - 1);
         const a = new Date(startTimeMapper[0]);
         const diff = startDate - a;
         let roundNum = match.roundNumber + roundOffset;
