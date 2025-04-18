@@ -1359,15 +1359,18 @@
         if (eventSpecific === 'nagc') {
           container.innerHTML = 'You can <a href="https://raidiant.link/GCStage1OQ2MapVetoes">click here</a> to see the map vetoes.';
         }
+        if (eventSpecific === 'mfh') {
+          container.innerHTML = 'tourney home page <a href="https://signup.yfpgaming.com/">here</a>'
+        }
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '67e844233c70d700211eacc0';
-      const processorType = params.get('processor') || 'gsl-double';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
-      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
-      const splitter = splitters[params.get('mainStreams') || 'nagc'];
-      const eventSpecific = params.get('eventSpecific') || 'nagc';
+      const tournament = params.get('tournament') || '67faf873ebde910020cc9de0';
+      const processorType = params.get('processor') || 'gsl-single';
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
+      const mainChannels = mainChannelMapper[params.get('mainStreams') || 'mfh'];
+      const splitter = splitters[params.get('mainStreams') || 'mfh'];
+      const eventSpecific = params.get('eventSpecific') || 'mfh';
       const anchor = window.location.hash;
 
       addEventSpecific();
