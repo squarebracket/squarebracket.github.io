@@ -1055,6 +1055,16 @@
           '2024-09-22T19:00:00.000Z',
           '2024-09-22T21:00:00.000Z',
           '2024-09-22T23:00:00.000Z',
+        ],
+        'mfh2': [
+          '2024-09-20T22:00:00.000Z',
+          '2024-09-21T00:00:00.000Z',
+          '2024-09-21T02:00:00.000Z',
+          '2024-09-21T22:00:00.000Z',
+          '2024-09-22T00:00:00.000Z',
+          '2024-09-22T02:00:00.000Z',
+          '2024-09-22T18:00:00.000Z',
+          '2024-09-22T20:00:00.000Z',
         ]
       }
 
@@ -1360,14 +1370,14 @@
           container.innerHTML = 'You can <a href="https://raidiant.link/GCStage1OQ2MapVetoes">click here</a> to see the map vetoes.';
         }
         if (eventSpecific === 'mfh') {
-          container.innerHTML = 'tourney home page <a href="https://signup.yfpgaming.com/">here</a>'
+          container.innerHTML = 'tourney home page <a href="https://www.funhaver.gg/">here</a>'
         }
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '67faf873ebde910020cc9de0';
+      const tournament = params.get('tournament') || '6801456e1998db002b14474c';
       const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh2'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'mfh'];
       const splitter = splitters[params.get('mainStreams') || 'mfh'];
       const eventSpecific = params.get('eventSpecific') || 'mfh';
