@@ -1375,9 +1375,9 @@
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '680d626977350d003665aa59';
+      const tournament = params.get('tournament') || '68183dfefc522e003f3d196c';
       const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh2'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'mfh'];
       const splitter = splitters[params.get('mainStreams') || 'mfh'];
       const eventSpecific = params.get('eventSpecific') || 'mfh';
