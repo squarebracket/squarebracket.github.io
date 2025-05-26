@@ -1065,6 +1065,16 @@
           '2024-09-22T02:00:00.000Z',
           '2024-09-22T18:00:00.000Z',
           '2024-09-22T20:00:00.000Z',
+        ],
+        'mfh3': [
+          '2024-09-20T22:00:00.000Z',
+          '2024-09-21T00:00:00.000Z',
+          '2024-09-21T02:00:00.000Z',
+          '2024-09-21T22:00:00.000Z',
+          '2024-09-22T00:00:00.000Z',
+          '2024-09-22T21:00:00.000Z',
+          '2024-09-22T23:00:00.000Z',
+          '2024-09-23T01:00:00.000Z',
         ]
       }
 
@@ -1372,15 +1382,18 @@
         if (eventSpecific === 'mfh') {
           container.innerHTML = 'tourney home page <a href="https://www.funhaver.gg/">here</a>'
         }
+        if (eventSpecific === 'yfp') {
+          container.innerHTML = 'tourney home page <a href="https://signup.yfpgaming.com/">here</a>'
+        }
       }
 
       const params = new URLSearchParams(window.location.search);
-      const tournament = params.get('tournament') || '68183dfefc522e003f3d196c';
+      const tournament = params.get('tournament') || '682f92df235a19002b535fd8';
       const processorType = params.get('processor') || 'gsl-single';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'mfh3'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'mfh'];
       const splitter = splitters[params.get('mainStreams') || 'mfh'];
-      const eventSpecific = params.get('eventSpecific') || 'mfh';
+      const eventSpecific = params.get('eventSpecific') || 'yfp';
       const anchor = window.location.hash;
 
       addEventSpecific();
