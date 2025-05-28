@@ -461,7 +461,7 @@
             })
           roundOffset = roundOffset + maxRoundNumThisStage;
           } else {
-            stage.matches.forEach((match) => {
+            stage.matches.sort((a, b) => a.inConsolationBracket ? 1 : -1).forEach((match) => {
               maxRoundNumThisStage = Math.max(maxRoundNumThisStage, match.roundNumber);
               if (processorType === 'challengers1') {
                 if ((stage.bracket.style === 'single' && match.roundNumber > 3) || (stage.bracket.style === 'double' && match.matchType === 'winner' && match.roundNumber > 4) || (stage.bracket.style === 'double' && match.matchType === 'loser' && match.roundNumber > 6)) {
