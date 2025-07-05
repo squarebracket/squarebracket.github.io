@@ -475,7 +475,10 @@
               }
               if ((processorType === 'gsl-single' || processorType === 'gsl-double') && stage.bracket.style === 'double') {
                 // stop at top 2
-                if (match.roundNumber > 2) {
+                if (match.roundNumber > 2 && /group/i.test(stage.name)) {
+                  return;
+                }
+                if (match.roundNumber > 3) {
                   return;
                 }
                 if (match.matchType === 'loser' && !/group/i.test(stage.name)) {
