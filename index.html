@@ -1049,6 +1049,16 @@
           '2024-03-26T21:00:00.000Z',
           '2024-03-26T23:30:00.000Z',
         ],
+        'gc-quals2': [
+          '2024-03-22T21:00:00.000Z',
+          '2024-03-22T22:30:00.000Z',
+          '2024-03-23T21:00:00.000Z',
+          '2024-03-23T23:00:00.000Z',
+          '2024-03-26T21:00:00.000Z',
+          '2024-03-26T23:00:00.000Z',
+          '2024-03-27T21:00:00.000Z',
+          '2024-03-27T23:30:00.000Z',
+        ],
         'mfh': [
           '2024-09-20T22:00:00.000Z',
           '2024-09-21T00:00:00.000Z',
@@ -1393,7 +1403,7 @@
       const params = new URLSearchParams(window.location.search);
       const tournament = params.get('tournament') || '685ef963b6ad750036bc1dd5';
       const processorType = params.get('processor') || 'gsl-double';
-      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals'];
+      const startTimeMapperType = timeMappers[params.get('timeMapper') || 'gc-quals2'];
       const mainChannels = mainChannelMapper[params.get('mainStreams') || 'nagc'];
       const splitter = splitters[params.get('mainStreams') || 'nagc'];
       const eventSpecific = params.get('eventSpecific') || 'nagc';
