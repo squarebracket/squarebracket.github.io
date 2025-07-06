@@ -478,12 +478,12 @@
                 if (match.roundNumber > 2 && /group/i.test(stage.name)) {
                   return;
                 }
-                if (match.roundNumber > 3) {
+                if (match.roundNumber > 3 && match.matchType === 'winner') {
                   return;
                 }
-                if (match.matchType === 'loser' && !/group/i.test(stage.name)) {
-                  match.roundNumber = match.roundNumber + 1;
-                }
+                // if (match.matchType === 'loser' && !/group/i.test(stage.name)) {
+                  // match.roundNumber = match.roundNumber + 1;
+                // }
               }
               if (processorType === 'gsl-single' && stage.bracket.style === 'single') {
                 roundOffset = 3;
